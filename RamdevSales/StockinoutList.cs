@@ -113,11 +113,11 @@ namespace RamdevSales
                 this.Text = "STOCK IN LIST";
                 if (userrights.Rows.Count > 0)
                 {
-                    if (userrights.Rows[15]["a"].ToString() == "False")
+                    if (userrights.Rows[47]["a"].ToString() == "False")
                     {
                         btnnew.Enabled = false;
                     }
-                    if (userrights.Rows[15]["p"].ToString() == "False")
+                    if (userrights.Rows[47]["p"].ToString() == "False")
                     {
                         btngenrpt.Enabled = false;
                     }
@@ -129,11 +129,11 @@ namespace RamdevSales
                 this.Text = "STOCK OUT LIST";
                 if (userrights.Rows.Count > 0)
                 {
-                    if (userrights.Rows[12]["a"].ToString() == "False")
+                    if (userrights.Rows[48]["a"].ToString() == "False")
                     {
                         btnnew.Enabled = false;
                     }
-                    if (userrights.Rows[12]["p"].ToString() == "False")
+                    if (userrights.Rows[48]["p"].ToString() == "False")
                     {
                         btngenrpt.Enabled = false;
                     }

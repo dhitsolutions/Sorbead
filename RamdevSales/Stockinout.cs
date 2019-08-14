@@ -223,15 +223,15 @@ namespace RamdevSales
                     {
                         if (userrights.Rows.Count > 0)
                         {
-                            if (userrights.Rows[12]["a"].ToString() == "False")
+                            if (userrights.Rows[48]["a"].ToString() == "False")
                             {
                                 BtnPayment.Enabled = false;
                             }
-                            if (userrights.Rows[12]["d"].ToString() == "False")
+                            if (userrights.Rows[48]["d"].ToString() == "False")
                             {
                                 btndelete.Enabled = false;
                             }
-                            if (userrights.Rows[12]["p"].ToString() == "False")
+                            if (userrights.Rows[48]["p"].ToString() == "False")
                             {
                                 btnCalculator.Enabled = false;
                             }
@@ -244,15 +244,15 @@ namespace RamdevSales
                     {
                         if (userrights.Rows.Count > 0)
                         {
-                            if (userrights.Rows[15]["a"].ToString() == "False")
+                            if (userrights.Rows[47]["a"].ToString() == "False")
                             {
                                 BtnPayment.Enabled = false;
                             }
-                            if (userrights.Rows[15]["d"].ToString() == "False")
+                            if (userrights.Rows[47]["d"].ToString() == "False")
                             {
                                 btndelete.Enabled = false;
                             }
-                            if (userrights.Rows[15]["p"].ToString() == "False")
+                            if (userrights.Rows[47]["p"].ToString() == "False")
                             {
                                 btnCalculator.Enabled = false;
                             }
@@ -274,14 +274,14 @@ namespace RamdevSales
                 {
                     if (strfinalarray[0] == "STI")
                     {
-                        if (userrights.Rows[15]["p"].ToString() == "False")
+                        if (userrights.Rows[47]["p"].ToString() == "False")
                         {
                             btnCalculator.Enabled = false;
                         }
                     }
                     else if (strfinalarray[0] == "STO")
                     {
-                        if (userrights.Rows[12]["p"].ToString() == "False")
+                        if (userrights.Rows[48]["p"].ToString() == "False")
                         {
                             btnCalculator.Enabled = false;
                         }
