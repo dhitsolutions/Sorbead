@@ -1250,6 +1250,10 @@ namespace RamdevSales
             temptable.Rows.Clear();
             cmbagentname.SelectedIndex = -1;
             pnlagent.Visible = false;
+            txtfraight.Text = string.Empty;
+            txtgrrrno.Text = string.Empty;
+            txtskids.Text = string.Empty;
+            txtvehicleno.Text = string.Empty;
         }
         public static string statusreg = string.Empty;
         public static string Decrypstatus(string cipherText)
@@ -4925,10 +4929,10 @@ namespace RamdevSales
                     if (cmbcustname.Text != "")
                     {
                         DataTable dtClientAddress = conn.getdataset("select * from ClientMaster where isactive=1 and AccountName='" + cmbcustname.Text + "'");
-                        if (dtClientAddress.Rows.Count > 0)
-                        {
-                            txttransport.Text = dtClientAddress.Rows[0]["Address"].ToString() + " " + dtClientAddress.Rows[0]["City"].ToString() + " " + dtClientAddress.Rows[0]["State"].ToString() + " " + "Ph: " + dtClientAddress.Rows[0]["Phone"].ToString() + "Mob: " + dtClientAddress.Rows[0]["Mobile"].ToString() + "";
-                        }
+                        //if (dtClientAddress.Rows.Count > 0)
+                        //{
+                        //    txttransport.Text = dtClientAddress.Rows[0]["Address"].ToString() + " " + dtClientAddress.Rows[0]["City"].ToString() + " " + dtClientAddress.Rows[0]["State"].ToString() + " " + "Ph: " + dtClientAddress.Rows[0]["Phone"].ToString() + "Mob: " + dtClientAddress.Rows[0]["Mobile"].ToString() + "";
+                        //}
                         // getsr();
                         if (strfinalarray[0] == "S" || strfinalarray[0] == "P")
                         {

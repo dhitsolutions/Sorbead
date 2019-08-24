@@ -3482,6 +3482,22 @@ namespace RamdevSales
             StockStatus frm = new StockStatus(this, tabControl);
             AddNewTab(frm);
         }
-
+        public int DropDownWidth(DataTable myCombo)
+        {
+            int maxWidth = 0;
+            int temp = 0;
+            Label label1 = new Label();
+            for (int i = 0; i < myCombo.Rows.Count; i++)
+            {
+                label1.Text = myCombo.Rows[i][1].ToString();
+                temp = label1.PreferredWidth;
+                if (temp > maxWidth)
+                {
+                    maxWidth = temp;
+                }
+            }
+            label1.Dispose();
+            return maxWidth + 10;
+        }
     }
 }

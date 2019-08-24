@@ -73,6 +73,8 @@ namespace RamdevSales
                 LVledger.Columns.Add("balance", 140, HorizontalAlignment.Right);
                 LVledger.Columns.Add("ClientID", 140, HorizontalAlignment.Right);
                 LVledger.Columns.Add("Batch", 140, HorizontalAlignment.Right);
+                LVledger.Columns.Add("PONO", 140, HorizontalAlignment.Right);
+                LVledger.Columns.Add("User Name", 140, HorizontalAlignment.Right);
 
                 //  listviewbind();
                 //  binditems();
@@ -1575,31 +1577,58 @@ namespace RamdevSales
                 #region
 
                 progressBar1.Increment(1);
-                DataTable pos = conn.getdataset("select 'POS' as Billtype,b.BillDate as Bill_Run_Date,b.billno,b.totalnet as Rate,bp.qty as pqty,b.BillId as Bill_No, bp.Batchno as Batch  from BillPOSMaster b inner join BillPOSProductMaster bp on b.billid=bp.billid where b.isactive=1 and bp.isactive=1 and b.BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and b.BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' and bp.itemname='" + txtitem.Text + "' order by BillDate asc");
+           //     DataTable pos = conn.getdataset("select 'POS' as Billtype,b.BillDate as Bill_Run_Date,b.billno,b.totalnet as Rate,bp.qty as pqty,b.BillId as Bill_No, bp.Batchno as Batch  from BillPOSMaster b inner join BillPOSProductMaster bp on b.billid=bp.billid where b.isactive=1 and bp.isactive=1 and b.BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and b.BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' and bp.itemname='" + txtitem.Text + "' order by BillDate asc");
+           //     pos.Columns.Add("ClientID", typeof(String));
+           //     //DataTable pos = conn.getdataset("select 'POS' as Billtype,BillDate as Bill_Run_Date,billno,totalnet as Rate,totalqty as pqty,BillId as Bill_No  from BillPOSMaster where isactive=1 and BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' order by BillDate asc");
+           //     pos = changedtclone(pos);
+
+           //    // DataTable SPdt1 = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No from SaleOrderProductMaster where isactive=1 and OrderStatus='Pending' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+           //     DataTable SPdtSTI = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STI' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+           //     SPdtSTI = changedtclone(SPdtSTI);
+           //     DataTable SPdtSTO = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STO' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+           //     SPdtSTO = changedtclone(SPdtSTO);
+           //     DataTable SPdt1 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='PC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+           //     SPdt1 = changedtclone(SPdt1);
+           //     DataTable SPdt2 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='SC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+           //     SPdt2 = changedtclone(SPdt2);
+           //     DataTable SPdtsr = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='SR' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+           //     SPdtsr = changedtclone(SPdtsr);
+           //     DataTable SPdtpr = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='PR' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+           //     SPdtpr = changedtclone(SPdtpr);
+           //     DataTable SPdtp = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='P' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+           //     SPdtp = changedtclone(SPdtp);
+           //  //   DataTable SPdtGIN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GIN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by Date");
+           //  //   SPdtGIN = changedtclone(SPdtGIN);
+           // //    DataTable SPdtGRN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GRN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by Date");
+           ////     SPdtGRN = changedtclone(SPdtGRN);
+           //     DataTable SPdt = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='S' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+
+                DataTable pos = conn.getdataset("select 'POS' as Billtype,b.BillDate as Bill_Run_Date,b.billno,b.totalnet as Rate,bp.qty as pqty,b.BillId as Bill_No, bp.Batchno as Batch,'' as PO_No,'' as username  from BillPOSMaster b inner join BillPOSProductMaster bp on b.billid=bp.billid where b.isactive=1 and bp.isactive=1 and b.BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and b.BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' and bp.itemname='" + txtitem.Text + "' order by BillDate asc");
                 pos.Columns.Add("ClientID", typeof(String));
                 //DataTable pos = conn.getdataset("select 'POS' as Billtype,BillDate as Bill_Run_Date,billno,totalnet as Rate,totalqty as pqty,BillId as Bill_No  from BillPOSMaster where isactive=1 and BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' order by BillDate asc");
                 pos = changedtclone(pos);
 
-                //DataTable SPdt1 = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No from SaleOrderProductMaster where isactive=1 and OrderStatus='Pending' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
-         //       DataTable SPdtSTI = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STI' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
-         //       SPdtSTI = changedtclone(SPdtSTI);
-         //       DataTable SPdtSTO = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STO' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
-        //        SPdtSTO = changedtclone(SPdtSTO);
-                DataTable SPdt1 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='PC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+                // DataTable SPdt1 = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No from SaleOrderProductMaster where isactive=1 and OrderStatus='Pending' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+                DataTable SPdtSTI = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1  and s.OrderStatus='Pending' and s.Billtype='STI' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+                SPdtSTI = changedtclone(SPdtSTI);
+                DataTable SPdtSTO = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STO' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+                SPdtSTO = changedtclone(SPdtSTO);
+                DataTable SPdt1 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='PC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
                 SPdt1 = changedtclone(SPdt1);
-                DataTable SPdt2 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='SC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
+                DataTable SPdt2 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1  and s.OrderStatus='Pending' and s.Billtype='SC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
                 SPdt2 = changedtclone(SPdt2);
-                DataTable SPdtsr = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='SR' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+                DataTable SPdtsr = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='SR' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
                 SPdtsr = changedtclone(SPdtsr);
-                DataTable SPdtpr = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='PR' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+                DataTable SPdtpr = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='PR' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
                 SPdtpr = changedtclone(SPdtpr);
-                DataTable SPdtp = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='P' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+                DataTable SPdtp = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='P' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' order by so.bill_Run_Date");
                 SPdtp = changedtclone(SPdtp);
-             //   DataTable SPdtGIN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GIN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by Date");
-             //   SPdtGIN = changedtclone(SPdtGIN);
-            //    DataTable SPdtGRN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GRN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by Date");
-           //     SPdtGRN = changedtclone(SPdtGRN);
-                DataTable SPdt = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='S' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+                //   DataTable SPdtGIN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GIN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by Date");
+                //   SPdtGIN = changedtclone(SPdtGIN);
+                //    DataTable SPdtGRN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GRN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by Date");
+                //     SPdtGRN = changedtclone(SPdtGRN);
+                DataTable SPdt = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='S' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by so.bill_Run_Date");
+
 
                 Double a = Convert.ToDouble(balance) + opbal;
                 balance = Convert.ToString(a);
@@ -1611,10 +1640,10 @@ namespace RamdevSales
                 SPdt.Merge(SPdtsr);
                 SPdt.Merge(SPdtpr);
                 SPdt.Merge(SPdtp);
-           //     SPdt.Merge(SPdtSTI);
-           //     SPdt.Merge(SPdtSTO);
-           //     SPdt.Merge(SPdtGIN);
-           //     SPdt.Merge(SPdtGRN);
+                SPdt.Merge(SPdtSTI);
+                SPdt.Merge(SPdtSTO);
+                //     SPdt.Merge(SPdtGIN);
+                //     SPdt.Merge(SPdtGRN);
                 SPdt.AcceptChanges();
 
 
@@ -1712,6 +1741,9 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
+
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "SC")
                     {
@@ -1739,10 +1771,12 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "STO")
                     {
-                    /*    ListViewItem li;
+                        ListViewItem li;
                         li = LVledger.Items.Add(Convert.ToDateTime(SPdt.Rows[i]["bill_Run_Date"].ToString()).ToString(Master.dateformate));
                         li.SubItems.Add("Stock Out");
                         li.SubItems.Add("Bill No. " + SPdt.Rows[i]["Billno"].ToString());
@@ -1754,7 +1788,7 @@ namespace RamdevSales
                         li.SubItems.Add((Math.Round(Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), 2)).ToString());
                         debit += Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString());
 
-                        mouseclickid.Rows.Add("Stock Out", SPdt.Rows[i]["Bill_no"].ToString());
+                        mouseclickid.Rows.Add("Sale", SPdt.Rows[i]["Bill_no"].ToString());
                         if (i != 0)
                         {
                             string[] str = balance.Split(' ');
@@ -1764,7 +1798,10 @@ namespace RamdevSales
                         }
                         balance = getbalance(opbal, Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), DC, "D", i);
                         li.SubItems.Add(balance);
-                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());  */
+                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "POS")
                     {
@@ -1792,6 +1829,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "SR")
                     {
@@ -1818,6 +1857,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "P")
                     {
@@ -1844,6 +1885,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "PC")
                     {
@@ -1870,21 +1913,23 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "STI")
                     {
-                      /*  ListViewItem li;
+                        ListViewItem li;
                         li = LVledger.Items.Add(Convert.ToDateTime(SPdt.Rows[i]["bill_Run_Date"].ToString()).ToString(Master.dateformate));
                         li.SubItems.Add("Stock In");
                         li.SubItems.Add("Bill No. " + SPdt.Rows[i]["Billno"].ToString());
-                        string clientname = conn.ExecuteScalar("select accountname from clientmaster where isactive=1 and clientid=(select clientid from SaleOrderMaster where isactive=1 and billno='" + SPdt.Rows[i]["Billno"].ToString() + "')");
+                        string clientname = conn.ExecuteScalar("select accountname from clientmaster where isactive=1 and clientid=(select clientid from billmaster where isactive=1 and billno='" + SPdt.Rows[i]["Billno"].ToString() + "')");
                         li.SubItems.Add(clientname);
                         li.SubItems.Add(Math.Round(Convert.ToDouble(SPdt.Rows[i]["Rate"].ToString()), 2).ToString("N2"));
                         li.SubItems.Add((Math.Round(Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), 2)).ToString());
                         li.SubItems.Add("");
                         //li.SubItems.Add(Math.Round(Convert.ToDouble(SPdt.Rows[i]["Amount"].ToString()), 2).ToString("N2"));
                         credit += Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString());
-                        mouseclickid.Rows.Add("Stock In", SPdt.Rows[i]["Pqty"].ToString());
+                        mouseclickid.Rows.Add("Purchase", SPdt.Rows[i]["Pqty"].ToString());
                         if (i != 0)
                         {
                             string[] str = balance.Split(' ');
@@ -1894,7 +1939,10 @@ namespace RamdevSales
                         }
                         balance = getbalance(opbal, Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), DC, "C", i);
                         li.SubItems.Add(balance);
-                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString()); */
+                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "PR")
                     {
@@ -1921,6 +1969,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
 
                 }
@@ -2019,6 +2069,8 @@ namespace RamdevSales
                     li.SubItems.Add(balance);
                     li.SubItems.Add("1");
                     li.SubItems.Add(stockadjustment.Rows[i]["Batch"].ToString());
+                    li.SubItems.Add("");
+                    li.SubItems.Add("");
                 }
                 #endregion
             }
@@ -2035,8 +2087,8 @@ namespace RamdevSales
                 string totalSR = conn.ExecuteScalar("select sum(pqty) from billproductmaster where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and isactive=1 and Billtype='SR' and Batchid='" + cmbbatch.SelectedValue.ToString() + "'");
                 string totalPC = conn.ExecuteScalar("select sum(pqty) from saleorderproductmaster so inner join SaleOrderMaster s on s.billno=so.billno and s.isactive=1 where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and so.isactive=1 and so.Billtype='PC' and s.OrderStatus='Pending' and Batchid='" + cmbbatch.SelectedValue.ToString() + "'");
                 string totalSC = conn.ExecuteScalar("select sum(pqty) from saleorderproductmaster so inner join SaleOrderMaster s on s.billno=so.billno and s.isactive=1 where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and so.isactive=1 and so.Billtype='SC' and s.OrderStatus='Pending' and Batchid='" + cmbbatch.SelectedValue.ToString() + "'");
-            //    string totalSTI = conn.ExecuteScalar("select sum(pqty) from saleorderproductmaster so inner join SaleOrderMaster s on s.billno=so.billno and s.isactive=1 where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and so.isactive=1 and so.Billtype='STI' and s.OrderStatus='Pending' and Batch='" + cmbbatch.Text + "'");
-            //    string totalSTO = conn.ExecuteScalar("select sum(pqty) from saleorderproductmaster so inner join SaleOrderMaster s on s.billno=so.billno and s.isactive=1 where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and so.isactive=1 and so.Billtype='STO' and s.OrderStatus='Pending' and Batch='" + cmbbatch.Text + "'");
+               string totalSTI = conn.ExecuteScalar("select sum(pqty) from saleorderproductmaster so inner join SaleOrderMaster s on s.billno=so.billno and s.isactive=1 where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and so.isactive=1 and so.Billtype='STI' and s.OrderStatus='Pending' and Batch='" + cmbbatch.Text + "'");
+               string totalSTO = conn.ExecuteScalar("select sum(pqty) from saleorderproductmaster so inner join SaleOrderMaster s on s.billno=so.billno and s.isactive=1 where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and so.isactive=1 and so.Billtype='STO' and s.OrderStatus='Pending' and Batch='" + cmbbatch.Text + "'");
                 string totalSale = conn.ExecuteScalar("select sum(pqty) from billproductmaster where bill_Run_Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and isactive=1 and Billtype='S' and Batchid='" + cmbbatch.SelectedValue.ToString() + "'");
           //      string totalGIN = conn.ExecuteScalar("select sum(qty) from tblgoodissuereturnnoteitemmaster where Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and isactive=1 and Billtype='GIN' and Batch='" + cmbbatch.Text + "'");
                 //      string totalGRN = conn.ExecuteScalar("select sum(qty) from tblgoodissuereturnnoteitemmaster where Date < '" + DTPFrom.Text + "' and productid='" + proid + "' and isactive=1 and Billtype='GRN' and Batch='" + cmbbatch.Text + "'");
@@ -2085,7 +2137,7 @@ namespace RamdevSales
                 {
                     totalSC = "0.00";
                 }
-              /*  if (totalSTI == "" || totalSTI == "NULL")
+                if (totalSTI == "" || totalSTI == "NULL")
                 {
                     totalSTI = "0.00";
                 }
@@ -2093,15 +2145,15 @@ namespace RamdevSales
                 {
                     totalSTO = "0.00";
                 }
-                if (totalGIN == "" || totalGIN == "NULL")
-                {
-                    totalGIN = "0.00";
-                }
-                if (totalGRN == "" || totalGRN == "NULL")
-                {
-                    totalGRN = "0.00";
-                } */
-               Double totalPurchase1 = Convert.ToDouble(totalPurchase) + Convert.ToDouble(totalSR) + Convert.ToDouble(totalPC);
+                /*     if (totalGIN == "" || totalGIN == "NULL")
+                     {
+                         totalGIN = "0.00";
+                     }
+                     if (totalGRN == "" || totalGRN == "NULL")
+                     {
+                         totalGRN = "0.00";
+                     } */
+                Double totalPurchase1 = Convert.ToDouble(totalPurchase) + Convert.ToDouble(totalSR) + Convert.ToDouble(totalPC);
                Double totalSale1 = Convert.ToDouble(totalSale) + Convert.ToDouble(totalPR) + Convert.ToDouble(totalSC);
 
                 Double opbal;
@@ -2146,31 +2198,31 @@ namespace RamdevSales
                 #region
 
                 progressBar1.Increment(1);
-                DataTable pos = conn.getdataset("select 'POS' as Billtype,b.BillDate as Bill_Run_Date,b.billno,b.totalnet as Rate,bp.qty as pqty,b.BillId as Bill_No,bp.Batchno as Batch  from BillPOSMaster b inner join BillPOSProductMaster bp on b.billid=bp.billid where b.isactive=1 and bp.isactive=1 and b.BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and b.BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' and bp.itemname='" + txtitem.Text + "' order by BillDate asc");
+                DataTable pos = conn.getdataset("select 'POS' as Billtype,b.BillDate as Bill_Run_Date,b.billno,b.totalnet as Rate,bp.qty as pqty,b.BillId as Bill_No,bp.Batchno as Batch,'' as PO_No,'' as username  from BillPOSMaster b inner join BillPOSProductMaster bp on b.billid=bp.billid where b.isactive=1 and bp.isactive=1 and b.BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and b.BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' and bp.itemname='" + txtitem.Text + "' order by BillDate asc");
                 pos.Columns.Add("ClientID", typeof(String));
                 //DataTable pos = conn.getdataset("select 'POS' as Billtype,BillDate as Bill_Run_Date,billno,totalnet as Rate,totalqty as pqty,BillId as Bill_No  from BillPOSMaster where isactive=1 and BillDate>='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and BillDate<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "' order by BillDate asc");
                 pos = changedtclone(pos);
 
-                //DataTable SPdt1 = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No from SaleOrderProductMaster where isactive=1 and OrderStatus='Pending' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
-          //      DataTable SPdtSTI = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STI' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batch='" + cmbbatch.Text + "' order by so.bill_Run_Date");
-          //      SPdtSTI = changedtclone(SPdtSTI);
-          //      DataTable SPdtSTO = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='STO' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batch='" + cmbbatch.Text + "' order by so.bill_Run_Date");
-         //       SPdtSTO = changedtclone(SPdtSTO);
-                DataTable SPdt1 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='PC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batchid='" + cmbbatch.SelectedValue.ToString() + "' order by so.bill_Run_Date");
+          //      DataTable SPdt1 = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No from SaleOrderProductMaster where isactive=1 and OrderStatus='Pending' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' order by bill_Run_Date");
+               DataTable SPdtSTI = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1  and s.OrderStatus='Pending' and s.Billtype='STI' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batch='" + cmbbatch.Text + "' order by so.bill_Run_Date");
+                SPdtSTI = changedtclone(SPdtSTI);
+               DataTable SPdtSTO = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1  and s.OrderStatus='Pending' and s.Billtype='STO' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batch='" + cmbbatch.Text + "' order by so.bill_Run_Date");
+               SPdtSTO = changedtclone(SPdtSTO);
+                DataTable SPdt1 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.OrderStatus='Pending' and s.Billtype='PC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batch='" + cmbbatch.Text.ToString() + "' order by so.bill_Run_Date");
                 SPdt1 = changedtclone(SPdt1);
-                DataTable SPdt2 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.isactive=1 and s.isactive=1 and s.OrderStatus='Pending' and s.Billtype='SC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batchid='" + cmbbatch.SelectedValue.ToString() + "' order by so.bill_Run_Date");
+                DataTable SPdt2 = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.OrderStatus='Pending' and s.Billtype='SC' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and Batch='" + cmbbatch.Text.ToString() + "' order by so.bill_Run_Date");
                 SPdt2 = changedtclone(SPdt2);
-                DataTable SPdtsr = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='SR' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' and Batchid='" + cmbbatch.SelectedValue.ToString() + "' order by bill_Run_Date");
+                DataTable SPdtsr = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='SR' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and so.Batch='" + cmbbatch.Text.ToString() + "' order by bill_Run_Date");
                 SPdtsr = changedtclone(SPdtsr);
-                DataTable SPdtpr = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='PR' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' and Batchid='" + cmbbatch.SelectedValue.ToString() + "' order by bill_Run_Date");
+                DataTable SPdtpr = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='PR' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and so.Batch='" + cmbbatch.Text.ToString() + "' order by bill_Run_Date");
                 SPdtpr = changedtclone(SPdtpr);
-                DataTable SPdtp = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='P' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' and Batchid='" + cmbbatch.SelectedValue.ToString() + "' order by bill_Run_Date");
+                DataTable SPdtp = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='P' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and so.Batch='" + cmbbatch.Text.ToString() + "' order by bill_Run_Date");
                 SPdtp = changedtclone(SPdtp);
              //   DataTable SPdtGIN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GIN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' and Batch='" + cmbbatch.Text + "' order by Date");
              //   SPdtGIN = changedtclone(SPdtGIN);
             //    DataTable SPdtGRN = conn.getdataset("select Billtype,Date,billno,0 as Rate,qty as Pqty,0 as Bill_No,ClientID from tblgoodissuereturnnoteitemmaster where isactive=1 and billtype='GRN' and Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' and Batch='" + cmbbatch.Text + "' order by Date");
             //    SPdtGRN = changedtclone(SPdtGRN);
-                DataTable SPdt = conn.getdataset("select Billtype,Bill_Run_Date,billno,Rate,Pqty,Bill_No,ClientID,Batch as Batch from billproductmaster where isactive=1 and billtype='S' and bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and productid='" + proid + "' and Batchid='" + cmbbatch.SelectedValue.ToString() + "' order by bill_Run_Date");
+                DataTable SPdt = conn.getdataset("select so.Billtype,so.Bill_Run_Date,so.billno,so.Rate,so.Pqty,so.Bill_No,so.ClientID,so.Batch as Batch,s.PO_No,u.username from billproductmaster so inner join BillMaster s on so.BillNo=s.BillNo and s.isactive=1 inner join UserInfo u on u.UserId=s.Userid where so.isactive=1 and s.Billtype='S' and so.bill_Run_Date between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' and so.productid='" + proid + "' and so.Batch='" + cmbbatch.Text.ToString() + "' order by bill_Run_Date");
 
                 Double a = Convert.ToDouble(balance) + opbal;
                 balance = Convert.ToString(a);
@@ -2182,8 +2234,8 @@ namespace RamdevSales
                 SPdt.Merge(SPdtsr);
                 SPdt.Merge(SPdtpr);
                 SPdt.Merge(SPdtp);
-           //     SPdt.Merge(SPdtSTI);
-           //     SPdt.Merge(SPdtSTO);
+               SPdt.Merge(SPdtSTI);
+               SPdt.Merge(SPdtSTO);
               //  SPdt.Merge(SPdtGIN);
               //  SPdt.Merge(SPdtGRN);
                 SPdt.AcceptChanges();
@@ -2283,6 +2335,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "SC")
                     {
@@ -2310,10 +2364,12 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "STO")
                     {
-                     /*   ListViewItem li;
+                        ListViewItem li;
                         li = LVledger.Items.Add(Convert.ToDateTime(SPdt.Rows[i]["bill_Run_Date"].ToString()).ToString(Master.dateformate));
                         li.SubItems.Add("Stock Out");
                         li.SubItems.Add("Bill No. " + SPdt.Rows[i]["Billno"].ToString());
@@ -2325,7 +2381,7 @@ namespace RamdevSales
                         li.SubItems.Add((Math.Round(Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), 2)).ToString());
                         debit += Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString());
 
-                        mouseclickid.Rows.Add("Stock Out", SPdt.Rows[i]["Bill_no"].ToString());
+                        mouseclickid.Rows.Add("Sale", SPdt.Rows[i]["Bill_no"].ToString());
                         if (i != 0)
                         {
                             string[] str = balance.Split(' ');
@@ -2335,7 +2391,10 @@ namespace RamdevSales
                         }
                         balance = getbalance(opbal, Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), DC, "D", i);
                         li.SubItems.Add(balance);
-                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());   */
+                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "POS")
                     {
@@ -2363,6 +2422,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "SR")
                     {
@@ -2389,6 +2450,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "P")
                     {
@@ -2415,6 +2478,8 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "PC")
                     {
@@ -2441,10 +2506,12 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "STI")
                     {
-                      /*  ListViewItem li;
+                        ListViewItem li;
                         li = LVledger.Items.Add(Convert.ToDateTime(SPdt.Rows[i]["bill_Run_Date"].ToString()).ToString(Master.dateformate));
                         li.SubItems.Add("Stock In");
                         li.SubItems.Add("Bill No. " + SPdt.Rows[i]["Billno"].ToString());
@@ -2455,7 +2522,7 @@ namespace RamdevSales
                         li.SubItems.Add("");
                         //li.SubItems.Add(Math.Round(Convert.ToDouble(SPdt.Rows[i]["Amount"].ToString()), 2).ToString("N2"));
                         credit += Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString());
-                        mouseclickid.Rows.Add("Stock In", SPdt.Rows[i]["Pqty"].ToString());
+                        mouseclickid.Rows.Add("Purchase", SPdt.Rows[i]["Pqty"].ToString());
                         if (i != 0)
                         {
                             string[] str = balance.Split(' ');
@@ -2465,7 +2532,10 @@ namespace RamdevSales
                         }
                         balance = getbalance(opbal, Convert.ToDouble(SPdt.Rows[i]["Pqty"].ToString()), DC, "C", i);
                         li.SubItems.Add(balance);
-                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString()); */
+                        li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
                     else if (SPdt.Rows[i]["Billtype"].ToString() == "PR")
                     {
@@ -2492,71 +2562,74 @@ namespace RamdevSales
                         li.SubItems.Add(balance);
                         li.SubItems.Add(SPdt.Rows[i]["ClientID"].ToString());
                         li.SubItems.Add(SPdt.Rows[i]["Batch"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["PO_No"].ToString());
+                        li.SubItems.Add(SPdt.Rows[i]["username"].ToString());
                     }
 
                 }
-                //Production
-            /*    DataTable production = conn.getdataset("select pm.*,p.date from tblproductionrawmaterialmaster pm inner join tblproductionmaster p on p.id=pm.productionid where p.isactive=1 and pm.isactive=1 and pm.productid='" + proid + "' and pm.batchno='" + cmbbatch.Text + "'");
-                for (int i = 0; i < production.Rows.Count; i++)
-                {
-                    ListViewItem li;
-                    li = LVledger.Items.Add(Convert.ToDateTime(production.Rows[i]["date"].ToString()).ToString(Master.dateformate));
-                    li.SubItems.Add("Production");
-                    li.SubItems.Add("");
-                    li.SubItems.Add("");
-                    li.SubItems.Add(Math.Round(Convert.ToDouble("0"), 2).ToString("N2"));
-                    //  if (Convert.ToDouble(production.Rows[i]["rawqty"].ToString()) > 0)
-                    // {
-                    li.SubItems.Add("");
-                    li.SubItems.Add((Math.Round(Convert.ToDouble(production.Rows[i]["rawqty"].ToString()), 2)).ToString());
-                    debit += Convert.ToDouble(production.Rows[i]["rawqty"].ToString());
-                    //}
-                    //else
-                    //{
-                    //    li.SubItems.Add("");
-                    //    li.SubItems.Add((Math.Round(Convert.ToDouble(production.Rows[i]["rawqty"].ToString()), 2)).ToString());
-                    //    Double d = Convert.ToDouble(production.Rows[i]["rawqty"].ToString());
-                    //    Double a1 = d * -1;
-                    //    debit += Convert.ToDouble(a1);
-                    //}
-                    Double bal = Convert.ToDouble(balance);
-                    Double astock = Convert.ToDouble(production.Rows[i]["rawqty"].ToString());
-                    Double fbalance = bal - astock;
-                    balance = Convert.ToString(fbalance);
-                    li.SubItems.Add(balance);
-                    li.SubItems.Add("1");
-                }
-                //fineshqty
-                DataTable fineshqty = conn.getdataset("select * from tblfinishedgoodsqty where isactive=1 and productid='" + proid + "' and batchno='" + cmbbatch.Text + "'");
-                for (int i = 0; i < fineshqty.Rows.Count; i++)
-                {
-                    ListViewItem li;
-                    li = LVledger.Items.Add(Convert.ToDateTime(fineshqty.Rows[i]["date"].ToString()).ToString(Master.dateformate));
-                    li.SubItems.Add("Finished Qty");
-                    li.SubItems.Add("");
-                    li.SubItems.Add("");
-                    li.SubItems.Add(Math.Round(Convert.ToDouble("0"), 2).ToString("N2"));
-                    //if (Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString()) > 0)
-                    //{
-                    li.SubItems.Add((Math.Round(Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString()), 2)).ToString());
-                    li.SubItems.Add("");
-                    credit += Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString());
-                    //}
-                    //else
-                    //{
-                    //    li.SubItems.Add("");
-                    //    li.SubItems.Add((Math.Round(Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString()), 2)).ToString());
-                    //    Double d = Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString());
-                    //    Double a1 = d * -1;
-                    //    debit += Convert.ToDouble(a1);
-                    //}
-                    Double bal = Convert.ToDouble(balance);
-                    Double astock = Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString());
-                    Double fbalance = bal + astock;
-                    balance = Convert.ToString(fbalance);
-                    li.SubItems.Add(balance);
-                    li.SubItems.Add("1");
-                } */
+                #region Production
+                /*    DataTable production = conn.getdataset("select pm.*,p.date from tblproductionrawmaterialmaster pm inner join tblproductionmaster p on p.id=pm.productionid where p.isactive=1 and pm.isactive=1 and pm.productid='" + proid + "' and pm.batchno='" + cmbbatch.Text + "'");
+                    for (int i = 0; i < production.Rows.Count; i++)
+                    {
+                        ListViewItem li;
+                        li = LVledger.Items.Add(Convert.ToDateTime(production.Rows[i]["date"].ToString()).ToString(Master.dateformate));
+                        li.SubItems.Add("Production");
+                        li.SubItems.Add("");
+                        li.SubItems.Add("");
+                        li.SubItems.Add(Math.Round(Convert.ToDouble("0"), 2).ToString("N2"));
+                        //  if (Convert.ToDouble(production.Rows[i]["rawqty"].ToString()) > 0)
+                        // {
+                        li.SubItems.Add("");
+                        li.SubItems.Add((Math.Round(Convert.ToDouble(production.Rows[i]["rawqty"].ToString()), 2)).ToString());
+                        debit += Convert.ToDouble(production.Rows[i]["rawqty"].ToString());
+                        //}
+                        //else
+                        //{
+                        //    li.SubItems.Add("");
+                        //    li.SubItems.Add((Math.Round(Convert.ToDouble(production.Rows[i]["rawqty"].ToString()), 2)).ToString());
+                        //    Double d = Convert.ToDouble(production.Rows[i]["rawqty"].ToString());
+                        //    Double a1 = d * -1;
+                        //    debit += Convert.ToDouble(a1);
+                        //}
+                        Double bal = Convert.ToDouble(balance);
+                        Double astock = Convert.ToDouble(production.Rows[i]["rawqty"].ToString());
+                        Double fbalance = bal - astock;
+                        balance = Convert.ToString(fbalance);
+                        li.SubItems.Add(balance);
+                        li.SubItems.Add("1");
+                    }
+                    //fineshqty
+                    DataTable fineshqty = conn.getdataset("select * from tblfinishedgoodsqty where isactive=1 and productid='" + proid + "' and batchno='" + cmbbatch.Text + "'");
+                    for (int i = 0; i < fineshqty.Rows.Count; i++)
+                    {
+                        ListViewItem li;
+                        li = LVledger.Items.Add(Convert.ToDateTime(fineshqty.Rows[i]["date"].ToString()).ToString(Master.dateformate));
+                        li.SubItems.Add("Finished Qty");
+                        li.SubItems.Add("");
+                        li.SubItems.Add("");
+                        li.SubItems.Add(Math.Round(Convert.ToDouble("0"), 2).ToString("N2"));
+                        //if (Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString()) > 0)
+                        //{
+                        li.SubItems.Add((Math.Round(Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString()), 2)).ToString());
+                        li.SubItems.Add("");
+                        credit += Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString());
+                        //}
+                        //else
+                        //{
+                        //    li.SubItems.Add("");
+                        //    li.SubItems.Add((Math.Round(Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString()), 2)).ToString());
+                        //    Double d = Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString());
+                        //    Double a1 = d * -1;
+                        //    debit += Convert.ToDouble(a1);
+                        //}
+                        Double bal = Convert.ToDouble(balance);
+                        Double astock = Convert.ToDouble(fineshqty.Rows[i]["fqty"].ToString());
+                        Double fbalance = bal + astock;
+                        balance = Convert.ToString(fbalance);
+                        li.SubItems.Add(balance);
+                        li.SubItems.Add("1");
+                    } */
+                #endregion
                 progressBar1.Increment(1);
                 DataTable stockadjustment = conn.getdataset("select sm.*,sim.* from stockadujestmentmaster sm inner join stockadujestmentitemmaster sim on sm.id=sim.stockid where sm.isactive=1 and sim.isactive=1 and sim.itemid='" + proid + "' and sim.batch='" + cmbbatch.Text + "' and sm.stockdate between '" + DTPFrom.Text + "' and '" + DTPTo.Text + "' order by sm.stockdate");
                 for (int i = 0; i < stockadjustment.Rows.Count; i++)
@@ -2588,6 +2661,8 @@ namespace RamdevSales
                     li.SubItems.Add(balance);
                     li.SubItems.Add("1");
                     li.SubItems.Add(stockadjustment.Rows[i]["Batch"].ToString());
+                    li.SubItems.Add("");
+                    li.SubItems.Add("");
                 }
                 #endregion
             }
@@ -2631,6 +2706,8 @@ namespace RamdevSales
                 cmbbatch.ValueMember = "ProPriceID";
                 cmbbatch.DisplayMember = "Batchno";
                 cmbbatch.DataSource = dt8;
+                if (dt8.Rows.Count > 0)
+                    cmbbatch.DropDownWidth = master.DropDownWidth(dt8);
                 cmbbatch.Focus();
             }
             catch
