@@ -2296,7 +2296,7 @@ namespace RamdevSales
             // string to = Convert.ToDateTime(y).ToString(dateformate);
             string reg = dtreg.Rows[0]["d16"].ToString();
             Decrypstatus(reg);
-            this.Text = "Total Business ERP[" + statusreg + "] #190814 [" + companydt.Rows[0][2].ToString() + "] [FY = " + fy + " to " + to + "] User=" + p;
+            this.Text = "Total Business ERP[" + statusreg + "] #190907 [" + companydt.Rows[0][2].ToString() + "] [FY = " + fy + " to " + to + "] User=" + p;
             lblcurrency.Text = "[" + companydt.Rows[0][30].ToString() + "]";
             currency = lblcurrency.Text;
             DataTable Userid = conn.getdataset("Select * from Userinfo where UserName='"+p+"'");
