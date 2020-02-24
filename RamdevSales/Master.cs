@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Security.Cryptography;
-using System.IO;
-using System.Globalization;
-using System.Threading;
+﻿using LoggingFramework;
 using Microsoft.Win32;
-using System.Diagnostics;
+using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
-using System.Net.NetworkInformation;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Management;
-using LoggingFramework;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace RamdevSales
 {
@@ -132,7 +128,8 @@ namespace RamdevSales
                     sMacAddress = adapter.GetPhysicalAddress().ToString();
 
                 }
-            } return sMacAddress;
+            }
+            return sMacAddress;
         }
         public static string Decryptmacadd(string cipherText)
         {
@@ -1261,7 +1258,7 @@ namespace RamdevSales
                             stockOutToolStripMenuItem.Enabled = a;
                             stockOutToolStripMenuItem.Visible = true;
                         }
-                        
+
                     }
                     else
                     {
@@ -2282,7 +2279,7 @@ namespace RamdevSales
             //frm.Show();
         }
         public static string currency = string.Empty;
-        public string CurrentUserid="1";
+        public string CurrentUserid = "1";
         internal void setheader(DataTable companydt, string p)
         {
 
@@ -2296,10 +2293,10 @@ namespace RamdevSales
             // string to = Convert.ToDateTime(y).ToString(dateformate);
             string reg = dtreg.Rows[0]["d16"].ToString();
             Decrypstatus(reg);
-            this.Text = "Total Business ERP[" + statusreg + "] #190907 [" + companydt.Rows[0][2].ToString() + "] [FY = " + fy + " to " + to + "] User=" + p;
+            this.Text = "Total Business ERP[" + statusreg + "] #200223 [" + companydt.Rows[0][2].ToString() + "] [FY = " + fy + " to " + to + "] User=" + p;
             lblcurrency.Text = "[" + companydt.Rows[0][30].ToString() + "]";
             currency = lblcurrency.Text;
-            DataTable Userid = conn.getdataset("Select * from Userinfo where UserName='"+p+"'");
+            DataTable Userid = conn.getdataset("Select * from Userinfo where UserName='" + p + "'");
             CurrentUserid = Userid.Rows[0]["Userid"].ToString();
         }
 
@@ -3424,6 +3421,12 @@ namespace RamdevSales
         {
             lockproduct frm = new lockproduct(this, tabControl);
             AddNewTab(frm);
+        }
+
+        private void saleReturnDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaleReturnRegisterdetailed sol = new SaleReturnRegisterdetailed(this, tabControl);
+            AddNewTab(sol);
         }
 
         private void gSTVouchersToolStripMenuItem_Click(object sender, EventArgs e)

@@ -205,7 +205,17 @@ namespace RamdevSales
             options = conn.getdataset("select * from options");
             loadcurrency();
         }
-
+        public DefaultSale(SaleReturnRegisterdetailed saleReturnRegisterdetailed, Master master, TabControl tabControl, string[] strfinalarray)
+        {
+            // TODO: Complete member initialization
+            InitializeComponent();
+            this.SaleReturnRegisterdetailed = saleReturnRegisterdetailed;
+            this.master = master;
+            this.tabControl = tabControl;
+            this.strfinalarray = strfinalarray;
+            options = conn.getdataset("select * from options");
+            loadcurrency();
+        }
         public DefaultSale(saleregisterdetailed saleregisterdetailed, Master master, TabControl tabControl, string[] strfinalarray)
         {
             // TODO: Complete member initialization
@@ -9622,6 +9632,7 @@ namespace RamdevSales
             txtcharplusminus.BackColor = Color.White;
         }
         string searchstr;
+        private SaleReturnRegisterdetailed SaleReturnRegisterdetailed;
         private saleregisterdetailed saleregisterdetailed;
         private purchaseregisterdetailed purchaseregisterdetailed;
         private void timer1_Tick(object sender, EventArgs e)

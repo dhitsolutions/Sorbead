@@ -75,11 +75,11 @@
     </Reference>
     <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ClosedXML.dll</HintPath>
+      <HintPath>..\..\..\2019\Sorbead\trunk\Ramdev Sales Final\RamdevSales\bin\Debug\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="crdb_adoplus, Version=9.1.3300.0, Culture=neutral, PublicKeyToken=692fbea5521e1304">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\SAP BusinessObjects\Crystal Reports for .NET Framework 4.0\Common\SAP BusinessObjects Enterprise XI 4.0\win32_x86\dotnet1\crdb_adoplus.dll</HintPath>
+      <HintPath>..\..\..\2019\Sorbead\trunk\Ramdev Sales Final\RamdevSales\bin\Debug\crdb_adoplus.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
@@ -109,7 +109,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="LoggingFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\Shrinathjii\trunk\Ramdev Sales Final\RamdevSales\bin\Debug\LoggingFramework.dll</HintPath>
+      <HintPath>..\..\..\2019\Sorbead\trunk\Ramdev Sales Final\RamdevSales\bin\Debug\LoggingFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -441,6 +441,12 @@
     <Compile Include="itemwisesaleorder.designer.cs">
       <DependentUpon>itemwisesaleorder.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemWiseStockSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemWiseStockSummary.Designer.cs">
+      <DependentUpon>ItemWiseStockSummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListPOSThemalPrint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -645,6 +651,12 @@
     </Compile>
     <Compile Include="saleregisterdetailed.Designer.cs">
       <DependentUpon>saleregisterdetailed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaleReturnRegisterdetailed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaleReturnRegisterdetailed.designer.cs">
+      <DependentUpon>SaleReturnRegisterdetailed.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectBankBills.cs">
       <SubType>Form</SubType>
@@ -1332,6 +1344,9 @@
     <EmbeddedResource Include="itemwisesaleorder.resx">
       <DependentUpon>itemwisesaleorder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ItemWiseStockSummary.resx">
+      <DependentUpon>ItemWiseStockSummary.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ListPOSThemalPrint.resx">
       <DependentUpon>ListPOSThemalPrint.cs</DependentUpon>
     </EmbeddedResource>
@@ -1433,6 +1448,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="saleregisterdetailed.resx">
       <DependentUpon>saleregisterdetailed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleReturnRegisterdetailed.resx">
+      <DependentUpon>SaleReturnRegisterdetailed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectBankBills.resx">
       <DependentUpon>SelectBankBills.cs</DependentUpon>

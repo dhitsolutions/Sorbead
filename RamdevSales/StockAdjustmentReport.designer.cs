@@ -75,7 +75,7 @@
             this.textBox7.Size = new System.Drawing.Size(1117, 31);
             this.textBox7.TabIndex = 248;
             this.textBox7.TabStop = false;
-            this.textBox7.Text = "STOCK MANAGEMENT";
+            this.textBox7.Text = "STOCK ADJUSTMENT";
             // 
             // grdstock
             // 

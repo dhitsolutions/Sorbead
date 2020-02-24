@@ -633,7 +633,7 @@ namespace RamdevSales
                 }
 
             }
-            catch
+            catch(Exception ex)
             {
             }
         }
