@@ -313,6 +313,7 @@
     <Compile Include="ClientRegistration.designer.cs">
       <DependentUpon>ClientRegistration.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonClass\CommonMethods.cs" />
     <Compile Include="CompanyInfo.cs">
       <SubType>Form</SubType>
     </Compile>

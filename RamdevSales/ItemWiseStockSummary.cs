@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using ClosedXML.Excel;
 using System.IO;
+using RamdevSales.CommonClass;
 
 namespace RamdevSales
 {
@@ -18,6 +19,7 @@ namespace RamdevSales
         //  Connection con = new Connection();
         SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["qry"].ToString());
         Connection cs = new Connection();
+        CommonMethods methods = new CommonMethods();
         public double optotal, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15;
         public double d16, d17, d18, d19, d20, d21, d22, d23, d24;
         public static string iid = "";
@@ -764,14 +766,14 @@ namespace RamdevSales
                                 // Double total = closing * (Convert.ToDouble(totalamt.Rows[0]["PurchasePrice"].ToString()) + Convert.ToDouble(totalamt.Rows[0]["SelfVal"].ToString()));
                                 dr["Total Amount"] = total;
                                 //Damage
-                                dr["Damage"] = "0";
+                                dr["Adjust Stock"] = "0";
                                 for (int j = 0; j < adjuststock.Rows.Count; j++)
                                 {
                                     if (adjuststock.Rows[j]["itemid"].ToString() == product.Rows[i]["ProductID"].ToString())
                                     {
                                         if (adjuststock.Rows[j]["batch"].ToString() == isbatch.Rows[k]["batchno"].ToString())
                                         {
-                                            dr["Damage"] = adjuststock.Rows[j]["adjuststock"].ToString();
+                                            dr["Adjust Stock"] = adjuststock.Rows[j]["adjuststock"].ToString();
                                             ajuststock = adjuststock.Rows[j]["adjuststock"].ToString();
                                             break;
                                         }
@@ -916,12 +918,12 @@ namespace RamdevSales
             dt.Columns.Add("ReUse");
             dt.Columns.Add("Closing");
             dt.Columns.Add("Total Amount");
-            dt.Columns.Add("Damage");
+            dt.Columns.Add("Adjust Stock");
             dt.Columns.Add("Final Closing");
-            dt.Columns.Add("Todays Physical Stock Entry");
-            dt.Columns.Add("Physical Stock Amt");
-            dt.Columns.Add("Remarks");
-            dt.Columns.Add("Final Closing Amt");
+            //dt.Columns.Add("Todays Physical Stock Entry");
+            //dt.Columns.Add("Physical Stock Amt");
+            //dt.Columns.Add("Remarks");
+            //dt.Columns.Add("Final Closing Amt");
         }
         private void getdatatable()
         {
@@ -980,7 +982,7 @@ namespace RamdevSales
                                 {
                                     if (opstock.Rows[j]["batchno"].ToString() == isbatch.Rows[k]["batchno"].ToString())
                                     {
-                                        Double opbal = getopbal(opstock.Rows[j]["productid"].ToString(), opstock.Rows[j]["batchno"].ToString());
+                                        Double opbal = methods.GetOpeningStockByProductID(opstock.Rows[j]["productid"].ToString(), opstock.Rows[j]["batchno"].ToString(), Convert.ToDateTime(DTPfrom.Text));
                                         dr["Op. Stock"] = opbal.ToString("N2");
                                         opening = opbal.ToString("N2");
                                         break;
@@ -991,7 +993,7 @@ namespace RamdevSales
                             #endregion Opstock
 
                             //  dt.Columns.Add("Op. Amt");
-                            double amt = getamt(Convert.ToDouble(opening), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Opening");
+                            double amt = methods.GetStockCalculatedAmount(Convert.ToDouble(opening), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Opening", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                             dr["Op. Amt"] = amt.ToString("N2");
 
                             //purchase stock
@@ -1017,7 +1019,7 @@ namespace RamdevSales
                             #endregion Pstock
 
                             // dt.Columns.Add("Purchase Amt");
-                            amt = getamt(Convert.ToDouble(purchase), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "Purchase Price", "Purchase");
+                            amt = methods.GetStockCalculatedAmount(Convert.ToDouble(purchase), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "Purchase Price", "Purchase", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                             dr["Purchase Amt"] = amt.ToString("N2");
 
 
@@ -1092,7 +1094,7 @@ namespace RamdevSales
                             #endregion SaleStock
 
                             // dt.Columns.Add("Sale Amt");
-                            amt = getamt(Convert.ToDouble(sale), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "Basic Price", "Sale");
+                            amt = methods.GetStockCalculatedAmount(Convert.ToDouble(sale), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "Basic Price", "Sale", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                             dr["Sale Amt"] = amt.ToString("N2");
 
                             //GIN stock
@@ -1168,7 +1170,7 @@ namespace RamdevSales
                             #endregion POSSale
 
                             //    dt.Columns.Add("POSSale Amt");
-                            amt = getamt(Convert.ToDouble(possale), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "Net Rate (Sale)", "POS");
+                            amt = methods.GetStockCalculatedAmount(Convert.ToDouble(possale), product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "Net Rate (Sale)", "POS", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                             dr["POSSale Amt"] = amt.ToString("N2");
 
 
@@ -1253,12 +1255,12 @@ namespace RamdevSales
                             //closing
                             Double closing = Convert.ToDouble(opening) + Convert.ToDouble(purchase.ToString()) + Convert.ToDouble(GRN.ToString()) + Convert.ToDouble(purchasec.ToString()) + Convert.ToDouble(stockinstr.ToString()) + Convert.ToDouble(finish.ToString()) + Convert.ToDouble(reuse.ToString()) - Convert.ToDouble(sale.ToString()) - Convert.ToDouble(GIN.ToString()) - Convert.ToDouble(salec.ToString()) - Convert.ToDouble(stockoutstr.ToString()) - Convert.ToDouble(possale.ToString()) + Convert.ToDouble(salereturn.ToString()) - Convert.ToDouble(purchasereturn.ToString()) - Convert.ToDouble(pro.ToString());
                             dr["Closing"] = Math.Round(closing, 2).ToString("N2");
-                            total = getamt(closing, product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Closing");
+                            total = methods.GetStockCalculatedAmount(closing, product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Closing", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                             // DataTable totalamt = cs.getdataset("select PurchasePrice,SelfVal from ProductPriceMaster where isactive=1 and Productid='" + product.Rows[i]["ProductID"].ToString() + "' and batchno='" + isbatch.Rows[k]["batchno"].ToString() + "'");
                             // Double total = closing * (Convert.ToDouble(totalamt.Rows[0]["PurchasePrice"].ToString()) + Convert.ToDouble(totalamt.Rows[0]["SelfVal"].ToString()));
                             dr["Total Amount"] = total;
                             //Damage
-                            dr["Damage"] = "0";
+                            dr["Adjust Stock"] = "0";
                             for (int j = 0; j < adjuststock.Rows.Count; j++)
                             {
                                 if (adjuststock.Rows[j]["itemid"].ToString() == product.Rows[i]["ProductID"].ToString())
@@ -1267,11 +1269,11 @@ namespace RamdevSales
                                     {
                                         if (adjuststock.Rows[j]["type"].ToString() == "D")
                                         {
-                                            dr["Damage"] = Convert.ToDouble(adjuststock.Rows[j]["adjuststock"].ToString()) * -1;
+                                            dr["Adjust Stock"] = Convert.ToDouble(adjuststock.Rows[j]["adjuststock"].ToString()) * -1;
                                         }
                                         else
                                         {
-                                            dr["Damage"] = Convert.ToDouble(adjuststock.Rows[j]["adjuststock"].ToString());
+                                            dr["Adjust Stock"] = Convert.ToDouble(adjuststock.Rows[j]["adjuststock"].ToString());
                                         }
                                         ajuststock = adjuststock.Rows[j]["adjuststock"].ToString();
                                         break;
@@ -1280,7 +1282,7 @@ namespace RamdevSales
                             }
                             Double finalclosing = Convert.ToDouble(closing) + Convert.ToDouble(ajuststock);
                             dr["Final Closing"] = Math.Round(finalclosing, 2).ToString("N2");
-                            dr["Final Closing Amt"] = Math.Round(getamt(finalclosing, product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Closing"), 2).ToString("N2");
+                            dr["Final Closing Amt"] = Math.Round(methods.GetStockCalculatedAmount(finalclosing, product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Closing", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text)), 2).ToString("N2");
                             dr["Todays Physical Stock Entry"] = "0";
                             dr["Physical Stock Amt"] = "0";
                             dr["Remarks"] = "";
@@ -1296,199 +1298,6 @@ namespace RamdevSales
             #endregion
         }
 
-        private double getamt(double closing, string productid, string batchno, string options, string formType)
-        {
-
-            //{
-            //    productid = cs.getsinglevalue("Select productid from productmaster where itemnumber='" + productid + "'");
-            //}
-
-            if (options == "")
-            {
-                options = cs.ExecuteScalar("select stockvalprice from options");
-            }
-            if (!string.IsNullOrEmpty(options))
-            {
-                if (options == "Purchase Price")
-                {
-                    totalamt = cs.getdataset("select PurchasePrice from ProductPriceMaster where isactive=1 and Productid='" + productid + "' and batchno='" + batchno + "'");
-                    total = closing * (Convert.ToDouble(totalamt.Rows[0]["PurchasePrice"].ToString()));
-                }
-                else if (options == "Self Value")
-                {
-                    totalamt = cs.getdataset("select SelfVal from ProductPriceMaster where isactive=1 and Productid='" + productid + "' and batchno='" + batchno + "'");
-                    total = closing * (Convert.ToDouble(totalamt.Rows[0]["SelfVal"].ToString()));
-                }
-                else if (options == "Sale Price")
-                {
-                    totalamt = cs.getdataset("select SalePrice from ProductPriceMaster where isactive=1 and Productid='" + productid + "' and batchno='" + batchno + "'");
-                    total = closing * (Convert.ToDouble(totalamt.Rows[0]["SalePrice"].ToString()));
-                }
-                else if (options == "Basic Price")
-                {
-                    totalamt = cs.getdataset("select BasicPrice from ProductPriceMaster where isactive=1 and Productid='" + productid + "' and batchno='" + batchno + "'");
-                    total = closing * (Convert.ToDouble(totalamt.Rows[0]["BasicPrice"].ToString()));
-                }
-                else if (options == "Mrp")
-                {
-                    totalamt = cs.getdataset("select MRP from ProductPriceMaster where isactive=1 and Productid='" + productid + "' and batchno='" + batchno + "'");
-                    total = closing * (Convert.ToDouble(totalamt.Rows[0]["MRP"].ToString()));
-                }
-                else if (options == "Average Sale")
-                {
-                    Double amount = 0;
-                    Double qty = 0;
-                    DataTable saledata = cs.getdataset("select Total,qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='S' and productid='" + productid + "' and Bill_Run_Date<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    for (int s = 0; s < saledata.Rows.Count; s++)
-                    {
-                        amount += Convert.ToDouble(saledata.Rows[s]["Total"].ToString());
-                        qty += Convert.ToDouble(saledata.Rows[s]["qty"].ToString());
-                    }
-                    Double value = amount / qty;
-                    if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    {
-                        value = 0;
-                    }
-                    total = value * closing;
-                }
-                else if (options == "Average Purchase")
-                {
-                    Double amount = 0;
-                    Double qty = 0;
-                    DataTable purchasedata = cs.getdataset("select Total,qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='P' and productid='" + productid + "' and Bill_Run_Date<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    for (int s = 0; s < purchasedata.Rows.Count; s++)
-                    {
-                        amount += Convert.ToDouble(purchasedata.Rows[s]["Total"].ToString());
-                        qty += Convert.ToDouble(purchasedata.Rows[s]["qty"].ToString());
-                    }
-                    Double value = amount / qty;
-                    if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    {
-                        value = 0;
-                    }
-                    total = value * closing;
-                }
-                else if (options == "Average")
-                {
-                    Double amount = 0;
-                    Double qty = 0;
-                    DataTable salepurchasedata = cs.getdataset("select Total,qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='P' and Billtype='S' and productid='" + productid + "' and Bill_Run_Date<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    for (int s = 0; s < salepurchasedata.Rows.Count; s++)
-                    {
-                        amount += Convert.ToDouble(salepurchasedata.Rows[s]["Total"].ToString());
-                        qty += Convert.ToDouble(salepurchasedata.Rows[s]["qty"].ToString());
-                    }
-                    Double value = amount / qty;
-                    if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    {
-                        value = 0;
-                    }
-                    total = value * closing;
-                }
-                else if (options == "Net Rate (Purchase)")
-                {
-                    Double amount = 0;
-                    Double qty = 0;
-                    DataTable purchasedata = cs.getdataset("select Amount,qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='P' and productid='" + productid + "' and Bill_Run_Date<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    for (int s = 0; s < purchasedata.Rows.Count; s++)
-                    {
-                        amount += Convert.ToDouble(purchasedata.Rows[s]["Amount"].ToString());
-                        qty += Convert.ToDouble(purchasedata.Rows[s]["qty"].ToString());
-                    }
-                    Double value = amount / qty;
-                    if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    {
-                        value = 0;
-                    }
-                    total = value * closing;
-                }
-                else if (options == "Net Rate (Sale)")
-                {
-                    DataTable saledata;
-                    Double amount = 0;
-                    Double qty = 0;
-                    if (formType == "POS")
-                    {
-                        saledata = cs.getdataset("select isnull(sum(Amount),0) as Amount,isnull(sum(qty),0) as qty from billposproductmaster where isactive=1 and batchno='" + batchno + "' and itemid='" + productid + "' and  BillRunDate between '" + Convert.ToDateTime(DTPfrom.Text).ToString(Master.dateformate) + "' and '" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    }
-                    else
-                    {
-                        saledata = cs.getdataset("select isnull(sum(Amount),0) as Amount,isnull(sum(qty),0) as qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='S' and productid='" + productid + "' and Bill_Run_Date between '" + Convert.ToDateTime(DTPfrom.Text).ToString(Master.dateformate) + "' and '" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    }
-                    //for (int s = 0; s < saledata.Rows.Count; s++)
-                    //{
-                    //    amount += Convert.ToDouble(saledata.Rows[s]["Amount"].ToString());
-                    //    qty += Convert.ToDouble(saledata.Rows[s]["qty"].ToString());
-                    //}
-                    //Double value = amount / qty;
-                    //if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    //{
-                    //    value = 0;
-                    //}
-                    if (saledata.Rows.Count > 0)
-                        total = Convert.ToDouble(saledata.Rows[0]["Amount"].ToString());
-                    else
-                        total = 0;
-                }
-                else if (options == "Min. Sale Rate")
-                {
-                    Double amount = 0;
-                    Double qty = 0;
-                    DataTable saledata = cs.getdataset("select Rate,qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='S' and productid='" + productid + "' and Bill_Run_Date<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    if (saledata.Rows.Count > 0)
-                    {
-                        DataRow[] dr1 = saledata.Select("Rate = MIN(Rate)");
-
-                        amount = Convert.ToDouble(dr1[0][0].ToString());
-                    }
-                    if ((Double.IsNaN(amount) || Double.IsInfinity(amount)))
-                    {
-                        amount = 0;
-                    }
-                    for (int s = 0; s < saledata.Rows.Count; s++)
-                    {
-                        // amount += Convert.ToDouble(saledata.Rows[s]["Amount"].ToString());
-                        qty += Convert.ToDouble(saledata.Rows[s]["qty"].ToString());
-                    }
-                    Double value = amount / qty;
-                    if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    {
-                        value = 0;
-                    }
-                    total = value * closing;
-
-
-                }
-                else if (options == "Min. Purchase Rate")
-                {
-                    Double amount = 0;
-                    Double qty = 0;
-                    DataTable saledata = cs.getdataset("select Rate,qty from BillProductMaster where isactive=1 and batch='" + batchno + "' and Billtype='P' and productid='" + productid + "' and Bill_Run_Date<='" + Convert.ToDateTime(DTPTo.Text).ToString(Master.dateformate) + "'");
-                    if (saledata.Rows.Count > 0)
-                    {
-                        DataRow[] dr1 = saledata.Select("Rate = MIN(Rate)");
-
-                        amount = Convert.ToDouble(dr1[0][0].ToString());
-                    }
-                    if ((Double.IsNaN(amount) || Double.IsInfinity(amount)))
-                    {
-                        amount = 0;
-                    }
-                    for (int s = 0; s < saledata.Rows.Count; s++)
-                    {
-                        // amount += Convert.ToDouble(saledata.Rows[s]["Amount"].ToString());
-                        qty += Convert.ToDouble(saledata.Rows[s]["qty"].ToString());
-                    }
-                    Double value = amount / qty;
-                    if ((Double.IsNaN(value) || Double.IsInfinity(value)))
-                    {
-                        value = 0;
-                    }
-                    total = value * closing;
-                }
-            }
-            return total;
-        }
         private void setgrid()
         {
             #region
@@ -1751,7 +1560,7 @@ namespace RamdevSales
                         d11 += Convert.ToDouble(dt.Rows[i]["ReUse"].ToString());
                         d12 += Convert.ToDouble(dt.Rows[i]["Closing"].ToString());
                         d13 += Convert.ToDouble(dt.Rows[i]["Total Amount"].ToString());
-                        d14 += Convert.ToDouble(dt.Rows[i]["Damage"].ToString());
+                        d14 += Convert.ToDouble(dt.Rows[i]["Adjust Stock"].ToString());
                         d15 += Convert.ToDouble(dt.Rows[i]["Final Closing"].ToString());
 
                         d16 += Convert.ToDouble(dt.Rows[i]["Op. Amt"].ToString());
@@ -1788,7 +1597,7 @@ namespace RamdevSales
                 dr["ReUse"] = d11;
                 dr["Closing"] = d12;
                 dr["Total Amount"] = d13;
-                dr["Damage"] = d14;
+                dr["Adjust Stock"] = d14;
                 dr["Final Closing"] = d15;
 
                 dr["Op. Amt"] = d16;
@@ -1960,7 +1769,7 @@ namespace RamdevSales
                 {
 
                     string proid = cs.getsinglevalue("Select Productid from productmaster where isactive=1 and itemnumber='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells["Item Code"].Value.ToString() + "'");
-                    double stock = getamt(Convert.ToDouble(grdstock.Rows[grdstock.CurrentRow.Index].Cells[27].Value), proid, grdstock.Rows[grdstock.CurrentRow.Index].Cells["batch"].Value.ToString(), "", "");
+                    double stock = methods.GetStockCalculatedAmount(Convert.ToDouble(grdstock.Rows[grdstock.CurrentRow.Index].Cells[27].Value), proid, grdstock.Rows[grdstock.CurrentRow.Index].Cells["batch"].Value.ToString(), "", "", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                     grdstock.Rows[grdstock.CurrentRow.Index].Cells[28].Value = stock.ToString("N2");
 
                     double totalstock = 0, totalstockval = 0;
@@ -2030,13 +1839,13 @@ namespace RamdevSales
                         Convert.ToDouble(grdstock.Rows[i].Cells["Purchase"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Purchase Amt"].Value) != 0 ||
                         Convert.ToDouble(grdstock.Rows[i].Cells["POSSale"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["POSSale Amt"].Value) != 0 ||
                         Convert.ToDouble(grdstock.Rows[i].Cells["Closing"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Total Amount"].Value) != 0 ||
-                        Convert.ToDouble(grdstock.Rows[i].Cells["Damage"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Physical Stock Amt"].Value) != 0 ||
+                        Convert.ToDouble(grdstock.Rows[i].Cells["Adjust Stock"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Physical Stock Amt"].Value) != 0 ||
                         Convert.ToDouble(grdstock.Rows[i].Cells["Final Closing"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Todays Physical Stock Entry"].Value) != 0)
                     {
 
                         string proid = cs.getsinglevalue("Select Productid from productmaster where isactive=1 and itemnumber='" + grdstock.Rows[i].Cells["Item Code"].Value + "'");
                         //  double closing = getclosing(grdstock.Rows[i].Cells[8].Value);
-                        double stock = getamt(Convert.ToDouble(grdstock.Rows[i].Cells[25].Value), proid, grdstock.Rows[i].Cells["batch"].Value.ToString(), "", "");
+                        double stock = methods.GetStockCalculatedAmount(Convert.ToDouble(grdstock.Rows[i].Cells[25].Value), proid, grdstock.Rows[i].Cells["batch"].Value.ToString(), "", "", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                         string qry = "INSERT INTO Printing(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21,T22,T23,T24,T25,T26,T27,T28,T29,T30,T31,T32,T33,T34,T35,T36,T37,T38,T39,T40,T41,T42,T43,T44,T45,T46,T47,T48,T49,T50,T51,T52,T53,T54,T55,T56,T57,T58)VALUES";
                         qry += "('" + grdstock.Rows[i].Cells[0].Value + "','" + grdstock.Rows[i].Cells[1].Value + "','" + grdstock.Rows[i].Cells[2].Value + "','" + grdstock.Rows[i].Cells[3].Value + "','" + grdstock.Rows[i].Cells[4].Value + "','" + grdstock.Rows[i].Cells[5].Value + "','" + grdstock.Rows[i].Cells[6].Value + "','" + grdstock.Rows[i].Cells[7].Value + "','" + grdstock.Rows[i].Cells[8].Value + "','" + grdstock.Rows[i].Cells[9].Value + "','" + grdstock.Rows[i].Cells[10].Value + "','" + grdstock.Rows[i].Cells[11].Value + "','" + grdstock.Rows[i].Cells[12].Value + "','" + grdstock.Rows[i].Cells[13].Value + "','" + grdstock.Rows[i].Cells[14].Value + "','" + grdstock.Rows[i].Cells[15].Value + "','" + grdstock.Rows[i].Cells[16].Value + "','" + grdstock.Rows[i].Cells[17].Value + "','" + grdstock.Rows[i].Cells[18].Value + "','" + grdstock.Rows[i].Cells[19].Value + "','" + grdstock.Rows[i].Cells[20].Value + "','" + grdstock.Rows[i].Cells[21].Value + "','" + grdstock.Rows[i].Cells[22].Value + "','" + grdstock.Rows[i].Cells[23].Value + "','" + grdstock.Rows[i].Cells[24].Value + "','" + grdstock.Rows[i].Cells[25].Value + "','" + grdstock.Rows[i].Cells[26].Value + "','" + grdstock.Rows[i].Cells[27].Value + "','" + grdstock.Rows[i].Cells[28].Value + "','" + grdstock.Rows[i].Cells[29].Value + "','" + dt1.Rows[0][0].ToString() + "','" + dt1.Rows[0][1].ToString() + "','" + dt1.Rows[0][2].ToString() + "','" + dt1.Rows[0][3].ToString() + "','" + dt1.Rows[0][4].ToString() + "','" + dt1.Rows[0][5].ToString() + "','" + dt1.Rows[0][6].ToString() + "','" + dt1.Rows[0][7].ToString() + "','" + dt1.Rows[0][8].ToString() + "','" + dt1.Rows[0][9].ToString() + "','" + dt1.Rows[0][10].ToString() + "','" + dt1.Rows[0][11].ToString() + "','" + dt1.Rows[0][12].ToString() + "','" + dt1.Rows[0][13].ToString() + "','" + DTPTo.Text + "','" + txtremarks.Text + "','" + stock + "','" + getdis + "','" + getexp + "','" + getpay + "','" + salereturn + "','" + grdstock.Rows[i].Cells[30].Value + "','" + damageamt + "','" + cashsale + "','" + cardsale + "','" + Walletsale + "','" + CreditSale + "','" + DTPfrom.Text + "')";
                         prn.execute(qry);
@@ -2138,13 +1947,13 @@ namespace RamdevSales
                                         Convert.ToDouble(grdstock.Rows[i].Cells["Purchase"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Purchase Amt"].Value) != 0 ||
                                         Convert.ToDouble(grdstock.Rows[i].Cells["POSSale"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["POSSale Amt"].Value) != 0 ||
                                         Convert.ToDouble(grdstock.Rows[i].Cells["Closing"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Total Amount"].Value) != 0 ||
-                                        Convert.ToDouble(grdstock.Rows[i].Cells["Damage"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Physical Stock Amt"].Value) != 0 ||
+                                        Convert.ToDouble(grdstock.Rows[i].Cells["Adjust Stock"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Physical Stock Amt"].Value) != 0 ||
                                         Convert.ToDouble(grdstock.Rows[i].Cells["Final Closing"].Value) != 0 || Convert.ToDouble(grdstock.Rows[i].Cells["Todays Physical Stock Entry"].Value) != 0)
                                     {
 
                                         string proid = cs.getsinglevalue("Select Productid from productmaster where isactive=1 and itemnumber='" + grdstock.Rows[i].Cells["Item Code"].Value + "'");
                                         //  double closing = getclosing(grdstock.Rows[i].Cells[8].Value);
-                                        double stock = getamt(Convert.ToDouble(grdstock.Rows[i].Cells[25].Value), proid, grdstock.Rows[i].Cells["batch"].Value.ToString(), "", "");
+                                        double stock = methods.GetStockCalculatedAmount(Convert.ToDouble(grdstock.Rows[i].Cells[25].Value), proid, grdstock.Rows[i].Cells["batch"].Value.ToString(), "", "", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text));
                                         string qry = "INSERT INTO Printing(T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21,T22,T23,T24,T25,T26,T27,T28,T29,T30,T31,T32,T33,T34,T35,T36,T37,T38,T39,T40,T41,T42,T43,T44,T45,T46,T47,T48,T49,T50,T51,T52,T53,T54,T55,T56,T57,T58)VALUES";
                                         qry += "('" + grdstock.Rows[i].Cells[0].Value + "','" + grdstock.Rows[i].Cells[1].Value + "','" + grdstock.Rows[i].Cells[2].Value + "','" + grdstock.Rows[i].Cells[3].Value + "','" + grdstock.Rows[i].Cells[4].Value + "','" + grdstock.Rows[i].Cells[5].Value + "','" + grdstock.Rows[i].Cells[6].Value + "','" + grdstock.Rows[i].Cells[7].Value + "','" + grdstock.Rows[i].Cells[8].Value + "','" + grdstock.Rows[i].Cells[9].Value + "','" + grdstock.Rows[i].Cells[10].Value + "','" + grdstock.Rows[i].Cells[11].Value + "','" + grdstock.Rows[i].Cells[12].Value + "','" + grdstock.Rows[i].Cells[13].Value + "','" + grdstock.Rows[i].Cells[14].Value + "','" + grdstock.Rows[i].Cells[15].Value + "','" + grdstock.Rows[i].Cells[16].Value + "','" + grdstock.Rows[i].Cells[17].Value + "','" + grdstock.Rows[i].Cells[18].Value + "','" + grdstock.Rows[i].Cells[19].Value + "','" + grdstock.Rows[i].Cells[20].Value + "','" + grdstock.Rows[i].Cells[21].Value + "','" + grdstock.Rows[i].Cells[22].Value + "','" + grdstock.Rows[i].Cells[23].Value + "','" + grdstock.Rows[i].Cells[24].Value + "','" + grdstock.Rows[i].Cells[25].Value + "','" + grdstock.Rows[i].Cells[26].Value + "','" + grdstock.Rows[i].Cells[27].Value + "','" + grdstock.Rows[i].Cells[28].Value + "','" + grdstock.Rows[i].Cells[29].Value + "','" + dt1.Rows[0][0].ToString() + "','" + dt1.Rows[0][1].ToString() + "','" + dt1.Rows[0][2].ToString() + "','" + dt1.Rows[0][3].ToString() + "','" + dt1.Rows[0][4].ToString() + "','" + dt1.Rows[0][5].ToString() + "','" + dt1.Rows[0][6].ToString() + "','" + dt1.Rows[0][7].ToString() + "','" + dt1.Rows[0][8].ToString() + "','" + dt1.Rows[0][9].ToString() + "','" + dt1.Rows[0][10].ToString() + "','" + dt1.Rows[0][11].ToString() + "','" + dt1.Rows[0][12].ToString() + "','" + dt1.Rows[0][13].ToString() + "','" + DTPTo.Text + "','" + txtremarks.Text + "','" + stock + "','" + getdis + "','" + getexp + "','" + getpay + "','" + salereturn + "','" + grdstock.Rows[i].Cells[30].Value + "','" + damageamt + "','" + cashsale + "','" + cardsale + "','" + Walletsale + "','" + CreditSale + "','" + DTPfrom.Text + "')";
                                         prn.execute(qry);
