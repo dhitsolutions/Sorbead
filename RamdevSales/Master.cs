@@ -3429,6 +3429,12 @@ namespace RamdevSales
             AddNewTab(sol);
         }
 
+        private void itemWiseStockSummeryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ItemWiseStockSummary item = new ItemWiseStockSummary(this, tabControl);
+            AddNewTab(item);
+        }
+
         private void gSTVouchersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GSTVouchersList frm = new GSTVouchersList(this, tabControl);

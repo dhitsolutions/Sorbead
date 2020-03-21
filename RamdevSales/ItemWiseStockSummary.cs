@@ -923,7 +923,7 @@ namespace RamdevSales
             //dt.Columns.Add("Todays Physical Stock Entry");
             //dt.Columns.Add("Physical Stock Amt");
             //dt.Columns.Add("Remarks");
-            //dt.Columns.Add("Final Closing Amt");
+            dt.Columns.Add("Final Closing Amt");
         }
         private void getdatatable()
         {
@@ -1283,9 +1283,9 @@ namespace RamdevSales
                             Double finalclosing = Convert.ToDouble(closing) + Convert.ToDouble(ajuststock);
                             dr["Final Closing"] = Math.Round(finalclosing, 2).ToString("N2");
                             dr["Final Closing Amt"] = Math.Round(methods.GetStockCalculatedAmount(finalclosing, product.Rows[i]["ProductID"].ToString(), isbatch.Rows[k]["batchno"].ToString(), "", "Closing", Convert.ToDateTime(DTPfrom.Text), Convert.ToDateTime(DTPTo.Text)), 2).ToString("N2");
-                            dr["Todays Physical Stock Entry"] = "0";
-                            dr["Physical Stock Amt"] = "0";
-                            dr["Remarks"] = "";
+                            //dr["Todays Physical Stock Entry"] = "0";
+                            //dr["Physical Stock Amt"] = "0";
+                            //dr["Remarks"] = "";
                             dt.Rows.Add(dr);
                         }
                     }

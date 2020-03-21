@@ -124,6 +124,7 @@
             this.itemVsSaleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.itemVsSaleOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.partyWiseItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saleReturnDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.purchaseRegisterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.purchaseRegisterDetailedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -188,7 +189,7 @@
             this.btnSalePanel = new System.Windows.Forms.Button();
             this.btnAccountpanel = new System.Windows.Forms.Button();
             this.btnItemPanel = new System.Windows.Forms.Button();
-            this.saleReturnDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemWiseStockSummeryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -761,7 +762,8 @@
             this.stockWithoutBatchToolStripMenuItem,
             this.stockDetailsToolStripMenuItem,
             this.itemProductWiseStockToolStripMenuItem,
-            this.stockStatusToolStripMenuItem});
+            this.stockStatusToolStripMenuItem,
+            this.itemWiseStockSummeryToolStripMenuItem});
             this.XReportToolStripMenuItem.Name = "XReportToolStripMenuItem";
             this.XReportToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
             this.XReportToolStripMenuItem.Text = "Stock";
@@ -997,6 +999,13 @@
             this.partyWiseItemToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.partyWiseItemToolStripMenuItem.Text = "Party Wise Item";
             this.partyWiseItemToolStripMenuItem.Click += new System.EventHandler(this.partyWiseItemToolStripMenuItem_Click);
+            // 
+            // saleReturnDetailToolStripMenuItem
+            // 
+            this.saleReturnDetailToolStripMenuItem.Name = "saleReturnDetailToolStripMenuItem";
+            this.saleReturnDetailToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.saleReturnDetailToolStripMenuItem.Text = "Sale Return Detail";
+            this.saleReturnDetailToolStripMenuItem.Click += new System.EventHandler(this.saleReturnDetailToolStripMenuItem_Click);
             // 
             // purchaseRegisterToolStripMenuItem
             // 
@@ -1707,12 +1716,12 @@
             this.btnItemPanel.MouseEnter += new System.EventHandler(this.btnItemPanel_MouseEnter);
             this.btnItemPanel.MouseLeave += new System.EventHandler(this.btnItemPanel_MouseLeave);
             // 
-            // saleReturnDetailToolStripMenuItem
+            // itemWiseStockSummeryToolStripMenuItem
             // 
-            this.saleReturnDetailToolStripMenuItem.Name = "saleReturnDetailToolStripMenuItem";
-            this.saleReturnDetailToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.saleReturnDetailToolStripMenuItem.Text = "Sale Return Detail";
-            this.saleReturnDetailToolStripMenuItem.Click += new System.EventHandler(this.saleReturnDetailToolStripMenuItem_Click);
+            this.itemWiseStockSummeryToolStripMenuItem.Name = "itemWiseStockSummeryToolStripMenuItem";
+            this.itemWiseStockSummeryToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
+            this.itemWiseStockSummeryToolStripMenuItem.Text = "Item Wise Stock Summery";
+            this.itemWiseStockSummeryToolStripMenuItem.Click += new System.EventHandler(this.itemWiseStockSummeryToolStripMenuItem_Click);
             // 
             // Master
             // 
@@ -1901,5 +1910,6 @@
         private System.Windows.Forms.ToolStripMenuItem itemProductWiseStockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stockStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saleReturnDetailToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem itemWiseStockSummeryToolStripMenuItem;
     }
 }
