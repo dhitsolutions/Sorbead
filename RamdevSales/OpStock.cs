@@ -356,7 +356,7 @@ namespace RamdevSales
                     //                        new SqlParameter("@TblNm", "billproductmaster"),
                     //                        new SqlParameter("@WhereClause", " where Billtype = 'PR' and isactive = 1 group by productid"));
                     // production = cs.getdataset("select ISNULL(SUM(fQty), 0) AS fqty,proitem from tblfinishedgoodsqty where isactive=1 group by proitem");
-                    adjuststock = cs.getdataset("select ISNULL(SUM(adjuststock), 0) AS adjuststock, itemid from stockadujestmentitemmaster where isactive = 1 group by itemid", scon);
+                    adjuststock = cs.getdataset("select ISNULL(SUM(adjuststock), 0) AS adjuststock, itemid,batchid from stockadujestmentitemmaster where isactive = 1 group by itemid,batchid", scon);
 
                     for (int i = 0; i < product.Rows.Count; i++)
                     {
@@ -495,9 +495,12 @@ namespace RamdevSales
                                 {
                                     if (adjuststock.Rows[j]["itemid"].ToString() == product.Rows[i]["ProductID"].ToString())
                                     {
-                                        dr["Adjust Stock"] = adjuststock.Rows[j]["adjuststock"].ToString();
-                                        ajuststock = adjuststock.Rows[j]["adjuststock"].ToString();
-                                        break;
+                                        if (adjuststock.Rows[j]["batchid"].ToString() == isbatch.Rows[k]["ProPriceID"].ToString())
+                                        {
+                                            dr["Adjust Stock"] = adjuststock.Rows[j]["adjuststock"].ToString();
+                                            ajuststock = adjuststock.Rows[j]["adjuststock"].ToString();
+                                            break;
+                                        }
                                     }
                                 }
                                 Double finalclosing = Convert.ToDouble(closing) + Convert.ToDouble(ajuststock);
