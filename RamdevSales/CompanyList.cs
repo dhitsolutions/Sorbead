@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.IO;
 using Microsoft.Synchronization;
-using Microsoft.Synchronization.Files;
+//using Microsoft.Synchronization.Files;
 using Microsoft.Synchronization.Data;
 using System.Globalization;
 using System.Threading;

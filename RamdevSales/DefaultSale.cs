@@ -228,6 +228,18 @@ namespace RamdevSales
             loadcurrency();
         }
 
+        public DefaultSale(SaleReturnApprovalForm saleReturnApprovalForm, Master master, TabControl tabControl, string[] strfinalarray)
+        {
+            // TODO: Complete member initialization
+            InitializeComponent();
+            this.SaleReturnApprovalForm = saleReturnApprovalForm;
+            this.master = master;
+            this.tabControl = tabControl;
+            this.strfinalarray = strfinalarray;
+            options = conn.getdataset("select * from options");
+            loadcurrency();
+        }
+
         public DefaultSale(purchaseregisterdetailed purchaseregisterdetailed, Master master, TabControl tabControl, string[] strfinalarray)
         {
             // TODO: Complete member initialization
@@ -9634,6 +9646,7 @@ namespace RamdevSales
         string searchstr;
         private SaleReturnRegisterdetailed SaleReturnRegisterdetailed;
         private saleregisterdetailed saleregisterdetailed;
+        private SaleReturnApprovalForm SaleReturnApprovalForm;
         private purchaseregisterdetailed purchaseregisterdetailed;
         private void timer1_Tick(object sender, EventArgs e)
         {

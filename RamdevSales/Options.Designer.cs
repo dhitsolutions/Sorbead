@@ -33,6 +33,7 @@
             this.showcustomersupplierseperatly = new System.Windows.Forms.CheckBox();
             this.tabGeneral = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkRestrictstockinsalewhennostock = new System.Windows.Forms.CheckBox();
             this.chksrno = new System.Windows.Forms.CheckBox();
             this.chkretrivesalepurchasereturn = new System.Windows.Forms.CheckBox();
             this.btnbrowse = new System.Windows.Forms.Button();
@@ -195,7 +196,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.btndelete = new System.Windows.Forms.Button();
-            this.chkRestrictstockinsalewhennostock = new System.Windows.Forms.CheckBox();
+            this.chkRequireApprovalinSaleReturn = new System.Windows.Forms.CheckBox();
             this.tabGeneral.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -253,6 +254,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.White;
+            this.tabPage1.Controls.Add(this.chkRequireApprovalinSaleReturn);
             this.tabPage1.Controls.Add(this.chkRestrictstockinsalewhennostock);
             this.tabPage1.Controls.Add(this.chksrno);
             this.tabPage1.Controls.Add(this.chkretrivesalepurchasereturn);
@@ -288,6 +290,17 @@
             this.tabPage1.Size = new System.Drawing.Size(872, 378);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
+            // 
+            // chkRestrictstockinsalewhennostock
+            // 
+            this.chkRestrictstockinsalewhennostock.AutoSize = true;
+            this.chkRestrictstockinsalewhennostock.Location = new System.Drawing.Point(8, 293);
+            this.chkRestrictstockinsalewhennostock.Name = "chkRestrictstockinsalewhennostock";
+            this.chkRestrictstockinsalewhennostock.Size = new System.Drawing.Size(197, 17);
+            this.chkRestrictstockinsalewhennostock.TabIndex = 34;
+            this.chkRestrictstockinsalewhennostock.Text = "Restrict stock in sale when no stock";
+            this.chkRestrictstockinsalewhennostock.UseVisualStyleBackColor = true;
+            this.chkRestrictstockinsalewhennostock.CheckedChanged += new System.EventHandler(this.chkRestrictstockinsalewhennostock_CheckedChanged);
             // 
             // chksrno
             // 
@@ -2307,16 +2320,16 @@
             this.btndelete.MouseEnter += new System.EventHandler(this.btndelete_MouseEnter);
             this.btndelete.MouseLeave += new System.EventHandler(this.btndelete_MouseLeave);
             // 
-            // chkRestrictstockinsalewhennostock
+            // chkRequireApprovalinSaleReturn
             // 
-            this.chkRestrictstockinsalewhennostock.AutoSize = true;
-            this.chkRestrictstockinsalewhennostock.Location = new System.Drawing.Point(8, 293);
-            this.chkRestrictstockinsalewhennostock.Name = "chkRestrictstockinsalewhennostock";
-            this.chkRestrictstockinsalewhennostock.Size = new System.Drawing.Size(197, 17);
-            this.chkRestrictstockinsalewhennostock.TabIndex = 34;
-            this.chkRestrictstockinsalewhennostock.Text = "Restrict stock in sale when no stock";
-            this.chkRestrictstockinsalewhennostock.UseVisualStyleBackColor = true;
-            this.chkRestrictstockinsalewhennostock.CheckedChanged += new System.EventHandler(this.chkRestrictstockinsalewhennostock_CheckedChanged);
+            this.chkRequireApprovalinSaleReturn.AutoSize = true;
+            this.chkRequireApprovalinSaleReturn.Location = new System.Drawing.Point(8, 309);
+            this.chkRequireApprovalinSaleReturn.Name = "chkRequireApprovalinSaleReturn";
+            this.chkRequireApprovalinSaleReturn.Size = new System.Drawing.Size(178, 17);
+            this.chkRequireApprovalinSaleReturn.TabIndex = 35;
+            this.chkRequireApprovalinSaleReturn.Text = "Require Approval in Sale Return";
+            this.chkRequireApprovalinSaleReturn.UseVisualStyleBackColor = true;
+            this.chkRequireApprovalinSaleReturn.CheckedChanged += new System.EventHandler(this.chkRequireApprovalinSaleReturn_CheckedChanged);
             // 
             // Options
             // 
@@ -2531,5 +2544,6 @@
         private System.Windows.Forms.ComboBox cmbstockin;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.CheckBox chkRestrictstockinsalewhennostock;
+        private System.Windows.Forms.CheckBox chkRequireApprovalinSaleReturn;
     }
 }

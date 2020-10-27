@@ -75,7 +75,7 @@
     </Reference>
     <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\2019\Sorbead\trunk\Ramdev Sales Final\RamdevSales\bin\Debug\ClosedXML.dll</HintPath>
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="crdb_adoplus, Version=9.1.3300.0, Culture=neutral, PublicKeyToken=692fbea5521e1304">
       <SpecificVersion>False</SpecificVersion>
@@ -89,9 +89,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Open XML SDK\V2.0\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
-    <Reference Include="EPPlus, Version=3.0.0.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus, Version=5.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.0.4\lib\net40\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
     <Reference Include="GoogleTranslateAPI">
@@ -102,14 +101,14 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>G:\dhitsolutions\Laptop-binali\Education drive\Hemal\cable\cable\bin\Debug\itextsharp.dll</HintPath>
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="LoggingFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\2019\Sorbead\trunk\Ramdev Sales Final\RamdevSales\bin\Debug\LoggingFramework.dll</HintPath>
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\LoggingFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -120,18 +119,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Smo.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Synchronization.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Synchronization.Data.SqlServer, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\Microsoft.Synchronization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\Microsoft.Synchronization.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization.Data.Server">
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\Microsoft.Synchronization.Data.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization.Data.SqlServer, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\TotalBusinessPlus\RamdevSales\bin\Debug\Microsoft.Synchronization.Data.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Synchronization.Files, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft Sync Framework\2.1\Runtime\x86\Microsoft.Synchronization.Files.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Services" />
@@ -652,6 +662,12 @@
     </Compile>
     <Compile Include="saleregisterdetailed.Designer.cs">
       <DependentUpon>saleregisterdetailed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SaleReturnApprovalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SaleReturnApprovalForm.Designer.cs">
+      <DependentUpon>SaleReturnApprovalForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SaleReturnRegisterdetailed.cs">
       <SubType>Form</SubType>
@@ -1449,6 +1465,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="saleregisterdetailed.resx">
       <DependentUpon>saleregisterdetailed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SaleReturnApprovalForm.resx">
+      <DependentUpon>SaleReturnApprovalForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SaleReturnRegisterdetailed.resx">
       <DependentUpon>SaleReturnRegisterdetailed.cs</DependentUpon>

@@ -2160,6 +2160,18 @@ namespace RamdevSales
                     string u = "Update updatedatabase set updatecode='" + "1905131000" + "' where id='" + "1" + "'";
                     c.execute(u, con);
                 }
+                if (Convert.ToInt32(dt.Rows[0]["updatecode"].ToString()) < 2008201000)
+                {
+                    string sale1 = @"Alter Table options add chkRequireApprovalinSaleReturn bit";
+                    c.execute(sale1, con);
+                    string update44 = "update Options set chkRequireApprovalinSaleReturn='" + "0" + "'";
+                    c.execute(update44, con);
+                    string SR = @"Alter Table BillProductMaster add Status char(1)";
+                    c.execute(SR, con);
+                    c.execute("update BillProductMaster set Status='N'", con);
+                    string u = "Update updatedatabase set updatecode='" + "2008201000" + "' where id='" + "1" + "'";
+                    c.execute(u, con);
+                }
 
             }
 

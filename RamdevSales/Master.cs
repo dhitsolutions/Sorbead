@@ -3435,6 +3435,12 @@ namespace RamdevSales
             AddNewTab(item);
         }
 
+        private void saleReturnApprovalRejectionEntryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaleReturnApprovalForm frm = new SaleReturnApprovalForm(this, tabControl);
+            AddNewTab(frm);
+        }
+
         private void gSTVouchersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GSTVouchersList frm = new GSTVouchersList(this, tabControl);

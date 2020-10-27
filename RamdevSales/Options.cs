@@ -77,6 +77,7 @@ namespace RamdevSales
                         chkBillAmount.Checked = Convert.ToBoolean(dt.Rows[0]["ShowTotalBillAmount"].ToString());
                         chksrno.Checked = Convert.ToBoolean(dt.Rows[0]["reqsrno"].ToString());
                         chkRestrictstockinsalewhennostock.Checked = Convert.ToBoolean(dt.Rows[0]["chkRestrictstockinsalewhennostock"].ToString());
+                        chkRequireApprovalinSaleReturn.Checked = Convert.ToBoolean(dt.Rows[0]["chkRequireApprovalinSaleReturn"].ToString());
                         //set the interval  and start the timer
                         // timer1.Interval = 1000;
                         // timer1.Start();
@@ -3057,8 +3058,9 @@ namespace RamdevSales
             conn.execute("update options set chkRestrictstockinsalewhennostock='" + chkRestrictstockinsalewhennostock.Checked + "'");
         }
 
-
-
-
+        private void chkRequireApprovalinSaleReturn_CheckedChanged(object sender, EventArgs e)
+        {
+            conn.execute("update options set chkRequireApprovalinSaleReturn='" + chkRequireApprovalinSaleReturn.Checked + "'");
+        }
     }
 }

@@ -12,6 +12,7 @@ using ClosedXML.Excel;
 using System.IO;
 using LoggingFramework;
 using System.Web.UI.WebControls;
+using RamdevSales.CommonClass;
 
 namespace RamdevSales
 {
@@ -760,25 +761,25 @@ namespace RamdevSales
             {
                 if (grdstock.CurrentCell.ColumnIndex == 0 && grdstock.Rows[grdstock.CurrentRow.Index].Cells[0].Value == "View")
                 {
-                  
-
                     string opening = "0", purchase = "0", purchasec = "0", sale = "0", salec = "0", salereturn = "0", purchasereturn = "0", possale = "0", finish = "0", pro = "0", adjuststock = "0";
+                    CommonMethods cm = new CommonMethods();
 
-                    opening = cs.getsinglevalue("select ISNULL(SUM(cast(opstock as float)+cast(oploose as float)), 0) AS opstock from productpricemaster where productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and ProPriceID='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "' and isactive=1");
-                    possale = cs.getsinglevalue("select ISNULL(SUM(Qty), 0) AS POSSale from BillPOSProductMaster where isactive=1 and BillRunDate<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and itemname='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[3].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    purchase = cs.getsinglevalue("select ISNULL(SUM(Pqty), 0) AS Purchase from billproductmaster where Billtype = 'P' and Bill_Run_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    purchasec = cs.getsinglevalue("select ISNULL(SUM(so.Pqty), 0) AS PurchaseChallan from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.Billtype = 'PC'and s.Bill_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and so.isactive = 1 and s.isactive=1 and s.OrderStatus='Pending' and so.productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and so.batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    sale = cs.getsinglevalue("select ISNULL(SUM(Pqty), 0) AS Sale from billproductmaster where Billtype = 'S' and Bill_Run_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    salec = cs.getsinglevalue("select ISNULL(SUM(so.Pqty), 0) AS SaleChallan from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.Billtype = 'SC' and s.Bill_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and so.isactive = 1 and s.isactive=1 and s.OrderStatus='Pending' and so.productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and so.batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    purchasereturn = cs.getsinglevalue("select ISNULL(SUM(Pqty), 0) AS PurchaseReturn from billproductmaster where Billtype = 'PR' and Bill_Run_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    adjuststock = cs.getsinglevalue("select ISNULL(SUM(adjuststock), 0) AS adjuststock from stockadujestmentitemmaster where stockdate<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and itemid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
-                    Double closing = Convert.ToDouble(opening) + Convert.ToDouble(purchase.ToString()) + Convert.ToDouble(purchasec.ToString()) - Convert.ToDouble(sale.ToString()) - Convert.ToDouble(salec.ToString()) - Convert.ToDouble(possale.ToString()) + Convert.ToDouble(salereturn.ToString()) - Convert.ToDouble(purchasereturn.ToString()) - Convert.ToDouble(pro.ToString() + Convert.ToDouble(finish.ToString())) + Convert.ToDouble(adjuststock);
-                        //string finalclosing = Math.Round(closing, 2).ToString("N2");
+                    var stock = cm.GetOpeningStockByProductID(grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value.ToString(), grdstock.Rows[grdstock.CurrentRow.Index].Cells[5].Value.ToString(), Convert.ToDateTime(DTPFrom.Text));
+                    //opening = cs.getsinglevalue("select ISNULL(SUM(cast(opstock as float)+cast(oploose as float)), 0) AS opstock from productpricemaster where productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and ProPriceID='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "' and isactive=1");
+                    //possale = cs.getsinglevalue("select ISNULL(SUM(Qty), 0) AS POSSale from BillPOSProductMaster where isactive=1 and BillRunDate<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and itemname='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[3].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //purchase = cs.getsinglevalue("select ISNULL(SUM(Pqty), 0) AS Purchase from billproductmaster where Billtype = 'P' and Bill_Run_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //purchasec = cs.getsinglevalue("select ISNULL(SUM(so.Pqty), 0) AS PurchaseChallan from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.Billtype = 'PC'and s.Bill_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and so.isactive = 1 and s.isactive=1 and s.OrderStatus='Pending' and so.productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and so.batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //sale = cs.getsinglevalue("select ISNULL(SUM(Pqty), 0) AS Sale from billproductmaster where Billtype = 'S' and Bill_Run_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //salec = cs.getsinglevalue("select ISNULL(SUM(so.Pqty), 0) AS SaleChallan from SaleOrderProductMaster so inner join SaleOrderMaster s on so.BillNo=s.BillNo where so.Billtype = 'SC' and s.Bill_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and so.isactive = 1 and s.isactive=1 and s.OrderStatus='Pending' and so.productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and so.batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //purchasereturn = cs.getsinglevalue("select ISNULL(SUM(Pqty), 0) AS PurchaseReturn from billproductmaster where Billtype = 'PR' and Bill_Run_Date<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and productid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //adjuststock = cs.getsinglevalue("select ISNULL(SUM(adjuststock), 0) AS adjuststock from stockadujestmentitemmaster where stockdate<='" + Convert.ToDateTime(DTPFrom.Text).ToString(Master.dateformate) + "' and isactive = 1 and itemid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[1].Value + "' and batchid='" + grdstock.Rows[grdstock.CurrentRow.Index].Cells[8].Value + "'");
+                    //Double closing = Convert.ToDouble(opening) + Convert.ToDouble(purchase.ToString()) + Convert.ToDouble(purchasec.ToString()) - Convert.ToDouble(sale.ToString()) - Convert.ToDouble(salec.ToString()) - Convert.ToDouble(possale.ToString()) + Convert.ToDouble(salereturn.ToString()) - Convert.ToDouble(purchasereturn.ToString()) - Convert.ToDouble(pro.ToString() + Convert.ToDouble(finish.ToString())) + Convert.ToDouble(adjuststock);
+                    //    //string finalclosing = Math.Round(closing, 2).ToString("N2");
+                    
                         DataGridViewLinkCell BtnCell = null;
-
                         BtnCell = (DataGridViewLinkCell)grdstock.Rows[grdstock.CurrentRow.Index].Cells[grdstock.CurrentCell.ColumnIndex];
                         BtnCell.UseColumnTextForLinkValue = false;
-                        BtnCell.Value = closing.ToString();
+                        BtnCell.Value = stock.ToString();
                         BtnCell.LinkColor = Color.Black;
                         BtnCell.LinkBehavior = LinkBehavior.NeverUnderline;
                    
